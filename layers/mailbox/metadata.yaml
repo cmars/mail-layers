@@ -1,0 +1,7 @@
+name: mailbox
+summary: Standalone personal mail server
+maintainer: Casey Marshall <me@cmars.tech>
+description: |
+    A simple standalone mail server setup based on postfix and dovecot.
+    Based on the guide, "Debian Mail Server with Postfix and Dovecot"
+    (https://scaron.info/blog/debian-mail-postfix-dovecot.html).

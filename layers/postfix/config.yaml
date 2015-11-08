@@ -1,0 +1,6 @@
+options:
+    domain:
+        type: string
+        description: "MX domain ('example.com' if handling mail for user@example.com)"
+        default: "localdomain"
+

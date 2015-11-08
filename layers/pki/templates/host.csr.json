@@ -1,0 +1,11 @@
+{
+    "CN": "{{ hostname }}",
+    "hosts": [
+        "{{ hostname }}",
+        "{{ public_ip }}"
+    ],
+    "key": {
+        "algo": "ecdsa",
+        "size": 384
+    }
+}

@@ -1,0 +1,6 @@
+options:
+    hostname:
+        type: string
+        description: "Public hostname of server"
+        default: "localhost"
+
