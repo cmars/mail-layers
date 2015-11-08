@@ -1,0 +1,37 @@
+sudo: false
+language: go
+go:
+  - 1.4
+  - 1.5
+before_install:
+  # CFSSL consists of multiple Go packages, which refer to each other by
+  # their absolute GitHub path, e.g. github.com/cloudflare/crypto/pkcs11key.
+  # That means, by default, if someone forks the repo and makes changes across
+  # multiple packages within CFSSL, Travis won't pass for the branch on their
+  # own repo. To fix that, we add a symlink.
+  - mkdir -p $TRAVIS_BUILD_DIR $GOPATH/src/github.com/cloudflare
+  - test ! -d $GOPATH/src/github.com/cloudflare/cfssl && ln -s $TRAVIS_BUILD_DIR $GOPATH/src/github.com/cloudflare/cfssl || true
+
+before_script:
+  - go get golang.org/x/tools/cmd/vet
+  - go get golang.org/x/tools/cmd/goimports
+  - go get github.com/onsi/gomega
+  - go get github.com/onsi/ginkgo
+  - go get -u github.com/golang/lint/golint
+  - go get golang.org/x/tools/cmd/cover
+  - go get github.com/modocache/gover
+  - go get -v github.com/GeertJohan/fgt
+script:
+  - ./test.sh
+notifications:
+  email:
+    recipients:
+    - nick@cloudflare.com
+    - zi@cloudflare.com
+    - kyle@cloudflare.com
+    on_success: never
+    on_failure: change
+env:
+  - secure: "OmaaZ3jhU9VQ/0SYpenUJEfnmKy/MwExkefFRpDbkRSu/hTQpxxALAZV5WEHo7gxLRMRI0pytLo7w+lAd2FlX1CNcyY62MUicta/8P2twsxp+lR3v1bJ7dwk6qsDbO7Nvv3BKPCDQCHUkggbAEJaHEQGdLk4ursNEB1aGimuCEc="
+after_success:
+  - bash <(curl -s https://codecov.io/bash) -f coverprofile.txt
